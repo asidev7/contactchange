@@ -31,7 +31,7 @@ import tempfile
 
 def google_oauth(request):
     # URL du fichier credentials.json
-    credentials_url = 'https://example.com/path/to/credentials.json'  # Remplacez par l'URL de votre fichier JSON
+    credentials_url = 'https://raw.githubusercontent.com/asidev7/contactchange/refs/heads/main/credentials.json'  # Remplacez par l'URL de votre fichier JSON
     
     # Télécharger le fichier JSON depuis l'URL
     response = requests.get(credentials_url)
@@ -59,7 +59,7 @@ def google_oauth(request):
 
 def oauth2callback(request):
     # URL du fichier credentials.json
-    credentials_url = 'https://example.com/path/to/credentials.json'  # Remplacez par l'URL de votre fichier JSON
+    credentials_url = 'https://raw.githubusercontent.com/asidev7/contactchange/refs/heads/main/credentials.json'  # Remplacez par l'URL de votre fichier JSON
 
     # Télécharger le fichier JSON depuis l'URL
     response = requests.get(credentials_url)

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-)g5#m&1p=fa((hdf6*t#tex2&ao(cv#uihs3k63mtq7o8h1w#j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.120.90']
+ALLOWED_HOSTS = []
 
 
 
@@ -58,10 +58,10 @@ ROOT_URLCONF = 'core.urls'
 
 
 # settings.py
-GOOGLE_CLIENT_ID = '1056067552899-hd8lc7p3mmq8ogm63rpn8qjht18f47u4.apps.googleusercontent.com'
-GOOGLE_CLIENT_SECRET = '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'
+GOOGLE_CLIENT_ID = '1056067552899-e1e5s2fb5vh5m4ekhmbgp2s1iodb2sco.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = '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'
 GOOGLE_API_SCOPES = ['https://www.googleapis.com/auth/contacts.readonly', 'https://www.googleapis.com/auth/contacts']
-REDIRECT_URI = 'https://asitech.online/oauth2callback/'
+REDIRECT_URI = 'https://localhost:8000/oauth2callback/'
   
 # Session expires after 30 minutes of inactivity
 SESSION_COOKIE_AGE = 1800  # 30 minutes
