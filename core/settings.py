@@ -61,7 +61,7 @@ ROOT_URLCONF = 'core.urls'
 GOOGLE_CLIENT_ID = '1056067552899-e1e5s2fb5vh5m4ekhmbgp2s1iodb2sco.apps.googleusercontent.com'
 GOOGLE_CLIENT_SECRET = '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'
 GOOGLE_API_SCOPES = ['https://www.googleapis.com/auth/contacts.readonly', 'https://www.googleapis.com/auth/contacts']
-REDIRECT_URI = 'https://localhost:8000/oauth2callback/'
+REDIRECT_URI = 'http://localhost:8000/oauth2callback/'
   
 # Session expires after 30 minutes of inactivity
 SESSION_COOKIE_AGE = 1800  # 30 minutes
