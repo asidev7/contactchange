@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Importer des Contacts</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">ContactManager</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/import/">Importer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/list/">Liste des Contacts</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container mt-3">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    
+    <!-- Form Section -->
+
+    <a href="{% url 'google_oauth' %}">Connect with Google Contacts</a>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header text-center bg-primary text-white">
+                        <h2>Importer des Contacts</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data" id="contactForm">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary w-100">Importer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Alert Messages -->
+    <div class="container mt-3" id="messageContainer" style="display: none;">
+        <div class="alert alert-success" role="alert" id="successMessage">
+            Contacts importés avec succès !
+        </div>
+        <div class="alert alert-danger" role="alert" id="errorMessage">
+            Une erreur est survenue. Veuillez réessayer.
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script>
+        // Example of client-side form validation
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
+            const fileInput = document.querySelector('[type="file"]');
+            if (!fileInput.value) {
+                e.preventDefault();
+                alert('Veuillez sélectionner un fichier CSV avant de soumettre.');
+            }
+        });
+
+        // Display a success message on form submission (can be replaced by Django's messages framework)
+        const messageContainer = document.getElementById('messageContainer');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Example simulation: Uncomment these to test the messages
+        // messageContainer.style.display = "block";
+        // successMessage.style.display = "block";
+    </script>
+</body>
+</html>
