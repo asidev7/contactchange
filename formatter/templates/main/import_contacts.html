@@ -1,100 +1,99 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Importer des Contacts</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="#">ContactManager</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/import/">Importer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/list/">Liste des Contacts</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+{% extends "main/base.html" %}
 
+{% block main %}
 
-    <div class="container mt-3">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
-                    {{ message }}
+<!-- Hero Section -->
+<section class="hero bg-gray-50 py-16 text-center mt-16">
+    <div class="container mx-auto px-4">
+        <h1 class="font-bold text-3xl sm:text-4xl text-teal-800 mb-4">Gérez vos Contacts en toute Simplicité</h1>
+        <p class="text-lg sm:text-xl text-gray-700 mb-8">Importez, mettez à jour et sécurisez vos contacts avec Hicontact. Le changement de numéro n'a jamais été aussi facile!</p>
+
+        <!-- Card Section -->
+        <div class="mt-8 mx-auto max-w-lg">
+            <div class="card bg-white shadow-lg rounded-lg border-2 border-teal-300">
+                <div class="card-header text-center p-4 border-b border-teal-300">
+                    <h2 class="text-2xl font-semibold text-teal-600">Importer et Mettre à Jour vos Contacts</h2>
                 </div>
-            {% endfor %}
-        {% endif %}
-    </div>
-    
-    <!-- Form Section -->
+                <div class="card-body p-6">
+                    <p class="text-lg text-gray-600 mb-4">Avec Hicontact, changez facilement vos anciens numéros en un clic, sans perdre aucune donnée.</p>
+                    <p class="text-lg text-gray-600 mb-4">Notre plateforme vous aide à convertir vos numéros Béninois au format moderne et international.</p>
 
-    <a href="{% url 'google_oauth' %}">Connect with Google Contacts</a>
-
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow">
-                    <div class="card-header text-center bg-primary text-white">
-                        <h2>Importer des Contacts</h2>
-                    </div>
-                    <div class="card-body">
-                        <form method="post" enctype="multipart/form-data" id="contactForm">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary w-100">Importer</button>
-                            </div>
-                        </form>
-                    </div>
+                    <form method="post" enctype="multipart/form-data" id="contactForm">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-teal w-full mt-3 p-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition duration-300">Importer</button>
+                    </form>
+                </div>
+                <div class="card-footer p-4 border-t border-teal-300">
+                    <a href="{% url 'google_oauth' %}" class="w-full inline-block text-center py-3 px-6 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 mt-3">
+                        <i class="fab fa-google mr-2"></i> Se connecter avec Google
+                    </a>
                 </div>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- Success/Alert Messages -->
-    <div class="container mt-3" id="messageContainer" style="display: none;">
-        <div class="alert alert-success" role="alert" id="successMessage">
-            Contacts importés avec succès !
+
+<!-- Features Section -->
+<section id="features" class="container mx-auto my-16 px-6">
+    <h2 class="text-3xl font-bold text-gray-800 text-center mb-10">Fonctionnalités principales</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Feature 1 -->
+        <div class="bg-white border-2 border-teal-600 shadow-md rounded-xl p-6 text-center">
+            <i class="fas fa-phone-alt fa-3x text-teal-600 mb-4"></i>
+            <h3 class="text-xl font-bold text-teal-600 mb-4">Mise à jour des numéros</h3>
+            <p>Convertissez vos anciens numéros au nouveau format en un clic.</p>
         </div>
-        <div class="alert alert-danger" role="alert" id="errorMessage">
-            Une erreur est survenue. Veuillez réessayer.
+        <!-- Feature 2 -->
+        <div class="bg-white border-2 border-teal-600 shadow-md rounded-xl p-6 text-center">
+            <i class="fas fa-database fa-3x text-teal-600 mb-4"></i>
+            <h3 class="text-xl font-bold text-teal-600 mb-4">Aucune perte de données</h3>
+            <p>Mettez à jour vos contacts sans perdre aucune information importante.</p>
+        </div>
+        <!-- Feature 3 -->
+        <div class="bg-white border-2 border-teal-600 shadow-md rounded-xl p-6 text-center">
+            <i class="fas fa-user-shield fa-3x text-teal-600 mb-4"></i>
+            <h3 class="text-xl font-bold text-teal-600 mb-4">Protection des données</h3>
+            <p>Vos données sont stockées en toute sécurité.</p>
+        </div>
+        <!-- Feature 4 -->
+        <div class="bg-white border-2 border-teal-600 shadow-md rounded-xl p-6 text-center">
+            <i class="fas fa-sync-alt fa-3x text-teal-600 mb-4"></i>
+            <h3 class="text-xl font-bold text-teal-600 mb-4">Synchronisation facile</h3>
+            <p>Synchronisez vos contacts avec différents appareils et plateformes en toute simplicité.</p>
+        </div>
+        <!-- Feature 5: vCard Plus -->
+        <div class="bg-white border-2 border-teal-600 shadow-md rounded-xl p-6 text-center">
+            <i class="fas fa-address-card fa-3x text-teal-600 mb-4"></i>
+            <h3 class="text-xl font-bold text-teal-600 mb-4">vCard Plus</h3>
+            <p>Importez et exportez facilement des contacts au format vCard Plus, pour une compatibilité maximale.</p>
+        </div>
+        <!-- Feature 6: Benin Contact Format -->
+        <div class="bg-white border-2 border-teal-600 shadow-md rounded-xl p-6 text-center">
+            <i class="fas fa-flag fa-3x text-teal-600 mb-4"></i>
+            <h3 class="text-xl font-bold text-teal-600 mb-4">Format Contact Bénin</h3>
+            <p>Utilisez le format standard des contacts au Bénin pour garantir une compatibilité locale optimale.</p>
         </div>
     </div>
+</section>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JavaScript -->
-    <script>
-        // Example of client-side form validation
-        document.getElementById('contactForm').addEventListener('submit', function (e) {
-            const fileInput = document.querySelector('[type="file"]');
-            if (!fileInput.value) {
-                e.preventDefault();
-                alert('Veuillez sélectionner un fichier CSV avant de soumettre.');
-            }
-        });
+    <!-- Support Section -->
+    <section id="support" class="bg-gray-100 py-16 text-center">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Besoin d'aide ?</h2>
+        <p class="text-gray-600 mb-6">Notre équipe est là pour vous assister.</p>
+        <a href="tel:+2290190776888" class="bg-teal-600 text-white px-6 py-3 rounded-md">Contactez-nous</a>
+    </section>
 
-        // Display a success message on form submission (can be replaced by Django's messages framework)
-        const messageContainer = document.getElementById('messageContainer');
-        const successMessage = document.getElementById('successMessage');
-        const errorMessage = document.getElementById('errorMessage');
 
-        // Example simulation: Uncomment these to test the messages
-        // messageContainer.style.display = "block";
-        // successMessage.style.display = "block";
-    </script>
-</body>
-</html>
+<!-- Custom JavaScript -->
+<script>
+    document.getElementById('contactForm').addEventListener('submit', function (e) {
+        const fileInput = document.querySelector('[type="file"]');
+        if (!fileInput.value) {
+            e.preventDefault();
+            alert('Veuillez sélectionner un fichier CSV avant de soumettre.');
+        }
+    });
+</script>
+{% endblock %}

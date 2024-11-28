@@ -1,32 +1,30 @@
+import os
+import pickle
+import base64
+import qrcode
+import tempfile
+import requests
+import csv
 import vobject
+
+from io import BytesIO
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
-from .forms import ContactUploadForm
-from .models import Contact
-from google_auth_oauthlib.flow import Flow
 from django.conf import settings
-# views.py
+from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
-import pickle
-from django.conf import settings
-from .models import Contact
-from google_auth_oauthlib.flow import Flow
-import os
-import pickle
-from django.shortcuts import render, redirect
-from googleapiclient.discovery import build
-from django.conf import settings
-from .models import Contact
+import qrcode
+from PIL import Image
 
-
-import os
-import requests
-from google_auth_oauthlib.flow import Flow
-from django.shortcuts import redirect
-from django.conf import settings
-import tempfile
+from .forms import ContactUploadForm, vCardForm
+from .models import Contact, vCard
+from io import BytesIO
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
+from django.shortcuts import get_object_or_404
+from .models import vCard
 
 
 def google_oauth(request):
@@ -130,34 +128,45 @@ def import_google_contacts(request):
             )
 
     return redirect('list_contacts')
-# Helper function to format phone numbers (add custom logic if needed)
-def format_number(phone_number):
-    # Example formatting: remove non-numeric characters
-    formatted_number = ''.join(filter(str.isdigit, phone_number))
-    return formatted_number
 
+
+     
 def format_number(phone_number):
     """
     Formate un numéro de téléphone en suivant les règles spécifiques :
-    - Si le numéro commence par "+229", ajoute le préfixe "01" si nécessaire.
-    - Si le numéro fait exactement 8 chiffres, formate en "+229 01 xx xx xx xx".
-    - Sinon, retourne le numéro tel quel.
+    - Ajoute le préfixe "01" si nécessaire pour les numéros béninois.
+    - Reconnaît les formats locaux, nationaux, et internationaux.
+    - Retourne le numéro formaté ou tel quel si déjà conforme.
+
+    Arguments :
+    phone_number (str) : Le numéro de téléphone à formater.
+
+    Retourne :
+    str : Le numéro de téléphone formaté.
     """
-    phone_number = phone_number.strip()  # Supprime les espaces inutiles
+    # Supprime tous les espaces et caractères non numériques sauf '+'
+    phone_number = ''.join(filter(lambda x: x.isdigit() or x == '+', phone_number))
 
     if phone_number.startswith("+229"):
-        # Numéro international déjà avec l'indicatif
-        if len(phone_number) == 12:  # Exemple : +22997000000
+        # Numéro international béninois avec indicatif
+        if len(phone_number) == 12:  # Format sans espace : +22997000000
+            # Ajoute le préfixe "01" si nécessaire
             return f"+229 01 {phone_number[5:7]} {phone_number[7:9]} {phone_number[9:11]}"
-        return phone_number  # Retourne le numéro tel quel si bien formaté
+        elif len(phone_number) == 15 and phone_number[4:6] == "01":  # Déjà bien formaté
+            return phone_number
+        return phone_number  # Retourne tel quel si inconnu
 
     elif len(phone_number) == 8 and phone_number.isdigit():
-        # Numéro local de 8 chiffres (exemple : 97000000)
+        # Numéro local de 8 chiffres (exemple : 97000000 ou 64003675)
         return f"+229 01 {phone_number[:2]} {phone_number[2:4]} {phone_number[4:6]} {phone_number[6:]}"
-    
-    else:
-        # Retourne le numéro tel quel si non reconnu
-        return phone_number
+
+    elif len(phone_number) == 10 and phone_number.startswith('229'):
+        # Numéro national avec indicatif béninois (exemple : 22990776888)
+        return f"+229 01 {phone_number[3:5]} {phone_number[5:7]} {phone_number[7:9]} {phone_number[9:]}"
+
+    # Retourne le numéro tel quel si non reconnu ou déjà formaté
+    return phone_number
+
 
 
 def import_contacts(request):
@@ -295,3 +304,138 @@ def list_contacts(request):
     """
     contacts = Contact.objects.all().order_by('first_name')
     return render(request, "main/list_contacts.html", {"contacts": contacts})
+
+
+
+def vcard(request, vcard_id=None):
+    if vcard_id:
+        vcard = vCard.objects.get(id=vcard_id)
+        form = vCardForm(request.POST or None, request.FILES or None, instance=vcard)
+    else:
+        vcard = None
+        form = vCardForm(request.POST or None, request.FILES or None)
+
+    if form.is_valid():
+        vcard = form.save()
+
+        # Génération du QR code pour la vCard
+        qr = qrcode.make(f"https://127.0.0.1:8000/vcard/{vcard.id}/")
+        qr_image = BytesIO()
+        qr.save(qr_image, format='PNG')
+        qr_image.seek(0)
+
+        # Convertir l'image QR en base64
+        qr_image_base64 = base64.b64encode(qr_image.getvalue()).decode('utf-8')
+
+        # Rediriger vers la page de succès ou la page de détails de la vCard
+        return render(request, 'main/vcardsuccess.html', {'vcard': vcard, 'qr_image_base64': qr_image_base64})
+
+    return render(request, 'main/vcardplus.html', {'form': form, 'vcard': vcard})
+
+
+def vcard_pdf(request, vcard_id):
+    # Récupération des données de la vCard depuis la base
+    vcard = get_object_or_404(vCard, id=vcard_id)
+
+    # Générer les données au format vCard
+    vcard_data = f"""
+    BEGIN:VCARD
+    VERSION:3.0
+    N:{vcard.last_name};{vcard.first_name}
+    FN:{vcard.first_name} {vcard.last_name}
+    EMAIL:{vcard.email}
+    TEL:{vcard.phone_number}
+    ORG:{vcard.company}
+    ADR:{vcard.address}
+    END:VCARD
+    """
+
+    # Générer un QR code contenant les données vCard
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=10, border=4)
+    qr.add_data(vcard_data)
+    qr.make(fit=True)
+    qr_image = qr.make_image(fill_color="black", back_color="white")
+
+    # Convertir l'image du QR code en flux mémoire
+    qr_buffer = BytesIO()
+    qr_image.save(qr_buffer, format='PNG')
+    qr_buffer.seek(0)
+
+    # Créer un PDF avec les informations et le QR code
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="vcard_{vcard_id}.pdf"'
+
+    p = canvas.Canvas(response)
+    p.drawString(100, 800, f"Nom: {vcard.first_name} {vcard.last_name}")
+    p.drawString(100, 780, f"Email: {vcard.email}")
+    p.drawString(100, 760, f"Téléphone: {vcard.phone_number}")
+    p.drawString(100, 740, f"Entreprise: {vcard.company}")
+    p.drawString(100, 720, f"Adresse: {vcard.address}")
+
+    # Ajouter le QR code au PDF
+    p.drawImage(qr_buffer, 100, 600, width=150, height=150)
+
+    p.showPage()
+    p.save()
+    return response
+
+# Vue pour afficher les détails de la vCard et son QR code
+def vcard_detail(request, vcard_id):
+    vcard = get_object_or_404(vCard, id=vcard_id)
+    qr = qrcode.make(f"https://127.0.0.1:8000/vcard/{vcard.id}/")
+
+    # Convertir le QR code en base64
+    qr_io = BytesIO()
+    qr.save(qr_io, format='PNG')
+    qr_image_base64 = base64.b64encode(qr_io.getvalue()).decode()
+
+    context = {
+        'vcard': vcard,
+        'qr_image_base64': qr_image_base64,
+    }
+    return render(request, 'main/vcard_detail.html', context)
+
+# Génération d'un QR code stylé
+def generate_styled_qr(data):
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_H,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(data)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="teal", back_color="white").convert("RGBA")
+
+    # Ajouter un logo au centre (facultatif)
+    logo_path = 'static/images/logo.png'  # Modifier en fonction de votre projet
+    try:
+        logo = Image.open(logo_path)
+        logo = logo.resize((50, 50))  # Ajuster la taille du logo
+        pos = ((img.size[0] - logo.size[0]) // 2, (img.size[1] - logo.size[1]) // 2)
+        img.paste(logo, pos, mask=logo)
+    except FileNotFoundError:
+        pass  # Si le logo n'existe pas, continuer sans lui
+
+    return img
+
+# Télécharger la vCard au format .vcf
+def download_vcard2(request, vcard_id):
+    vcard = get_object_or_404(vCard, id=vcard_id)
+
+    # Contenu de la vCard
+    vcard_content = f"""
+    BEGIN:VCARD
+    VERSION:3.0
+    N:{vcard.last_name};{vcard.first_name}
+    FN:{vcard.first_name} {vcard.last_name}
+    EMAIL:{vcard.email}
+    TEL:{vcard.phone_number}
+    ORG:{vcard.company}
+    ADR:{vcard.address}
+    END:VCARD
+    """
+    response = HttpResponse(vcard_content, content_type='text/vcard')
+    response['Content-Disposition'] = f'attachment; filename="{vcard.first_name}_{vcard.last_name}.vcf"'
+    return response

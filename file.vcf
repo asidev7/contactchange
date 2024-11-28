@@ -1,0 +1,167 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:John Doe
+N:Doe;John;;;
+TEL:+22990909090
+EMAIL:john.doe@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Jane Smith
+N:Smith;Jane;;;
+TEL:+22990909091
+EMAIL:jane.smith@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Albert Traore
+N:Traore;Albert;;;
+TEL:+22990909092
+EMAIL:albert.traore@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Amina Adebayo
+N:Adebayo;Amina;;;
+TEL:+22990909093
+EMAIL:amina.adebayo@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Victor Koffi
+N:Koffi;Victor;;;
+TEL:+22990909094
+EMAIL:victor.koffi@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Emilie Gnanou
+N:Gnanou;Emilie;;;
+TEL:+22990909095
+EMAIL:emilie.gnanou@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Franck Bawa
+N:Bawa;Franck;;;
+TEL:+22990909096
+EMAIL:franck.bawa@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Olivier Adeoti
+N:Adeoti;Olivier;;;
+TEL:+22990909097
+EMAIL:olivier.adeoti@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Clara Alabi
+N:Alabi;Clara;;;
+TEL:+22990909098
+EMAIL:clara.alabi@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Souleymane Lawani
+N:Lawani;Souleymane;;;
+TEL:+22990909099
+EMAIL:souleymane.lawani@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Marie Migan
+N:Migan;Marie;;;
+TEL:+22990909100
+EMAIL:marie.migan@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Joseph Yovo
+N:Yovo;Joseph;;;
+TEL:+22990909101
+EMAIL:joseph.yovo@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Veronique Ahomadégbé
+N:Ahomadégbé;Veronique;;;
+TEL:+22990909102
+EMAIL:veronique.ahomadegbe@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Michel Atindehou
+N:Atindehou;Michel;;;
+TEL:+22990909103
+EMAIL:michel.atindehou@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Lucie Hounkpè
+N:Hounkpè;Lucie;;;
+TEL:+22990909104
+EMAIL:lucie.hounkpe@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Jean Koutou
+N:Koutou;Jean;;;
+TEL:+22990909105
+EMAIL:jean.koutou@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Angèle Adégbè
+N:Adégbè;Angèle;;;
+TEL:+22990909106
+EMAIL:angele.adegbe@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Abdoul Aziz
+N:Aziz;Abdoul;;;
+TEL:+22990909107
+EMAIL:abdoul.aziz@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Sarah Dossa
+N:Dossa;Sarah;;;
+TEL:+22990909108
+EMAIL:sarah.dossa@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Pascal Affonfo
+N:Affonfo;Pascal;;;
+TEL:+22990909109
+EMAIL:pascal.affonfo@example.com
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+FN:Claire Imorou
+N:Imorou;Claire;;;
+TEL:+22990909110
+EMAIL:claire.imorou@example.com
+END:VCARD
