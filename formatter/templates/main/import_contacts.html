@@ -6,7 +6,7 @@
 <section class="hero bg-gray-50 py-16 text-center mt-16">
     <div class="container mx-auto px-4">
         <h1 class="font-bold text-3xl sm:text-4xl text-teal-800 mb-4">Gérez vos Contacts en toute Simplicité</h1>
-        <p class="text-lg sm:text-xl text-gray-700 mb-8">Importez, mettez à jour et sécurisez vos contacts avec Hicontact. Le changement de numéro n'a jamais été aussi facile!</p>
+        <p class="text-lg sm:text-xl text-gray-700 mb-8">Importez, mettez à jour et sécurisez vos contacts avec ContactManager. Le changement de numéro n'a jamais été aussi facile!</p>
 
         <!-- Card Section -->
         <div class="mt-8 mx-auto max-w-lg">
@@ -15,17 +15,17 @@
                     <h2 class="text-2xl font-semibold text-teal-600">Importer et Mettre à Jour vos Contacts</h2>
                 </div>
                 <div class="card-body p-6">
-                    <p class="text-lg text-gray-600 mb-4">Avec Hicontact, changez facilement vos anciens numéros en un clic, sans perdre aucune donnée.</p>
+                    <p class="text-lg text-gray-600 mb-4">Avec ContactManger, changez facilement vos anciens numéros en un clic, sans perdre aucune donnée.</p>
                     <p class="text-lg text-gray-600 mb-4">Notre plateforme vous aide à convertir vos numéros Béninois au format moderne et international.</p>
 
                     <form method="post" enctype="multipart/form-data" id="contactForm">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button type="submit" class="btn btn-teal w-full mt-3 p-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition duration-300">Importer</button>
+                        <button type="submit" class="btn btn-teal w-full mt-3 p-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition duration-300">Convertir mes contacts</button>
                     </form>
                 </div>
                 <div class="card-footer p-4 border-t border-teal-300">
-                    <a href="{% url 'google_oauth' %}" class="w-full inline-block text-center py-3 px-6 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 mt-3">
+                    <a href="https://asitech-company.github.io/FastSync/" target="https://asitech-company.github.io/FastSync/" class="w-full inline-block text-center py-3 px-6 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 mt-3">
                         <i class="fab fa-google mr-2"></i> Se connecter avec Google
                     </a>
                 </div>
@@ -34,9 +34,59 @@
     </div>
 </section>
 
+<!-- Section d'Importation et d'Exportation de Contacts -->
+<section id="import-export" class="container mx-auto my-8 p-6 bg-gray-100 rounded-xl">
+    <div class="text-center mb-8">
+        <h2 class="text-3xl font-semibold text-teal-600">Importez et Exportez vos Contacts en vCard</h2>
+        <p class="text-lg text-gray-600">Suivez ces étapes simples pour importer ou exporter vos contacts au format vCard (.vcf).</p>
+    </div>
+    
+    <!-- Etapes d'importation -->
+    <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-xl p-6 mb-8">
+        <h4 class="text-2xl font-semibold text-teal-600 mb-4">Guide d'Importation</h4>
+        <ol class="list-decimal pl-6 space-y-4 text-gray-700">
+            <li><i class="fas fa-check-circle text-green-500"></i> Ouvrez votre application Contacts.</li>
+            <li><i class="fas fa-check-circle text-green-500"></i> Accédez à l'option "Importer" ou "Ajouter un contact".</li>
+            <li><i class="fas fa-check-circle text-green-500"></i> Sélectionnez l'option "Importer depuis vCard".</li>
+            <li><i class="fas fa-check-circle text-green-500"></i> Choisissez votre fichier vCard (.vcf) depuis votre appareil.</li>
+            <li><i class="fas fa-check-circle text-green-500"></i> Confirmez l'importation et vérifiez vos contacts.</li>
+        </ol>
+    </div>
+
+    <!-- Etapes d'exportation -->
+    <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-xl p-6">
+        <h4 class="text-2xl font-semibold text-teal-600 mb-4">Guide d'Exportation</h4>
+        <ol class="list-decimal pl-6 space-y-4 text-gray-700">
+            <li><i class="fas fa-check-circle text-green-500"></i> Ouvrez votre application Contacts.</li>
+            <li><i class="fas fa-check-circle text-green-500"></i> Sélectionnez le contact à exporter ou choisissez "Exporter tous les contacts".</li>
+            <li><i class="fas fa-check-circle text-green-500"></i> Choisissez l'option "Exporter vers vCard".</li>
+            <li><i class="fas fa-check-circle text-green-500"></i> Enregistrez le fichier .vcf sur votre appareil ou partagez-le via email.</li>
+            <li><i class="fas fa-check-circle text-green-500"></i> Vérifiez que le fichier vCard a bien été créé.</li>
+        </ol>
+    </div>
+</section>
+
+<!-- Personnalisation CSS -->
+<style>
+    #import-export {
+        background-color: #f8f9fa;
+        padding: 40px 0;
+    }
+    .card {
+        border-radius: 10px;
+    }
+    .lead {
+        font-size: 1.2rem;
+    }
+    .list-unstyled li {
+        margin: 10px 0;
+        font-size: 1rem;
+    }
+</style>
+
 
 <!-- Features Section -->
-<section id="features" class="container mx-auto my-16 px-6">
+<section id="features" class="container mx-auto my-16 px-6 m-2">
     <h2 class="text-3xl font-bold text-gray-800 text-center mb-10">Fonctionnalités principales</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <!-- Feature 1 -->
@@ -59,24 +109,19 @@
         </div>
         <!-- Feature 4 -->
         <div class="bg-white border-2 border-teal-600 shadow-md rounded-xl p-6 text-center">
-            <i class="fas fa-sync-alt fa-3x text-teal-600 mb-4"></i>
-            <h3 class="text-xl font-bold text-teal-600 mb-4">Synchronisation facile</h3>
-            <p>Synchronisez vos contacts avec différents appareils et plateformes en toute simplicité.</p>
-        </div>
-        <!-- Feature 5: vCard Plus -->
-        <div class="bg-white border-2 border-teal-600 shadow-md rounded-xl p-6 text-center">
-            <i class="fas fa-address-card fa-3x text-teal-600 mb-4"></i>
-            <h3 class="text-xl font-bold text-teal-600 mb-4">vCard Plus</h3>
-            <p>Importez et exportez facilement des contacts au format vCard Plus, pour une compatibilité maximale.</p>
-        </div>
-        <!-- Feature 6: Benin Contact Format -->
-        <div class="bg-white border-2 border-teal-600 shadow-md rounded-xl p-6 text-center">
             <i class="fas fa-flag fa-3x text-teal-600 mb-4"></i>
             <h3 class="text-xl font-bold text-teal-600 mb-4">Format Contact Bénin</h3>
-            <p>Utilisez le format standard des contacts au Bénin pour garantir une compatibilité locale optimale.</p>
+            <p>Utilisez le format standard des contacts au Bénin pour une compatibilité locale optimale.</p>
         </div>
     </div>
+
+    <!-- Data Saving Warning -->
+    <div class="alert alert-warning p-4 text-center bg-yellow-300 text-black mt-6" role="alert">
+        <i class="fas fa-exclamation-triangle fa-2x text-red-600 mb-0"></i>
+        <strong>Attention!</strong> Les données saisies ne sont pas sauvegardées sur ce site.
+    </div>
 </section>
+
 
     <!-- Support Section -->
     <section id="support" class="bg-gray-100 py-16 text-center">

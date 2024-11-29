@@ -130,46 +130,51 @@
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="bg-white shadow-md fixed w-full z-10 top-0 left-0">
-        <div class="container mx-auto flex items-center justify-between px-6 py-4">
-            <a href="#" class="text-2xl font-bold text-teal-600"><img src="{% static 'image/logo.png' %}" width="200px" alt="Logo"></a>
-            
-            <!-- Desktop Menu -->
-            <ul class="hidden md:flex space-x-6">
-                <li><a href="/#home" class="text-gray-600 hover:text-teal-600"><i class="fas fa-home"></i> Accueil</a></li>
-                <li><a href="/vcard" class="text-gray-600 hover:text-teal-600"><i class="fas fa-address-card"></i> Vcard Plus</a></li>
+  
+ 
+  
+  <nav class="bg-white shadow-md fixed w-full z-10 top-0 left-0">
+    <div class="container mx-auto flex items-center justify-between px-6 py-4">
+        <a href="#" class="text-2xl font-bold text-teal-600">CManager</a>
 
-                <li><a href="/#features" class="text-gray-600 hover:text-teal-600"><i class="fas fa-cogs"></i> Fonctionnalités</a></li>
-                <li><a href="/#support" class="text-gray-600 hover:text-teal-600"><i class="fas fa-headset"></i> Support</a></li>
-            </ul>
+        <!-- Desktop Menu -->
+        <ul class="hidden md:flex space-x-6">
+            <li><a href="/#home" class="text-gray-600 hover:text-teal-600">Accueil</a></li>
+            <li><a href="/vcard" class="text-gray-600 hover:text-teal-600">Vcard Plus</a></li>
+            <li><a href="/#features" class="text-gray-600 hover:text-teal-600">Fonctionnalités</a></li>
+            <li><a href="/#support" class="text-gray-600 hover:text-teal-600">Support</a></li>
+        </ul>
 
-            <!-- Importer Button -->
-            <a href="" class="bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700">Importer</a>
+        <!-- Importer Button -->
+        <a href="wa.me/22964003675" class="bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700">Centre d'aide</a>
 
-            <!-- Mobile Hamburger -->
-            <div class="md:hidden flex items-center space-x-4">
-                <button id="hamburger" class="text-teal-600">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+        <!-- Mobile Hamburger -->
+        <div class="md:hidden flex items-center space-x-4 p">
+            <button id="hamburger" class="text-teal-600">
+                <i class="fas fa-bars fa-2x"></i>
+            </button>
         </div>
+    </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-teal-600 text-white px-6 py-4">
-            <ul>
-                <li><a href="/#home" class="block py-2"><i class="fas fa-home"></i> Accueil</a></li>
-                <li><a href="/#features" class="block py-2"><i class="fas fa-cogs"></i> Fonctionnalités</a></li>
-                <li><a href="/#support" class="block py-2"><i class="fas fa-headset"></i> Support</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-teal-600 text-white px-6 py-4">
+        <ul>
+            <li><a href="/#home" class="block py-2">Accueil</a></li>
+            <li><a href="/#features" class="block py-2">Fonctionnalités</a></li>
+            <li><a href="/#support" class="block py-2">Support</a></li>
+        </ul>
+    </div>
+</nav>
 
     {% block main %}{% endblock %}
 
-    <!-- Footer -->
-    <footer class="text-center py-6">
-        <p class="text-sm">&copy; 2024 ContactManager229. Tous droits réservés.</p>
-    </footer>
+   
+   
+   <!-- Footer -->
+<footer class="text-center py-6">
+    <p class="text-sm">&copy; 2024 ContactManager229. Tous droits réservés. Réalisé par l'équipe ASITECH</p>
+</footer>
+
 
     <script>
         // Toggle mobile menu visibility

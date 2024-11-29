@@ -17,7 +17,11 @@ from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 import qrcode
 from PIL import Image
-
+import qrcode
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+from .models import vCard
+from io import BytesIO
 from .forms import ContactUploadForm, vCardForm
 from .models import Contact, vCard
 from io import BytesIO
@@ -167,8 +171,6 @@ def format_number(phone_number):
     # Retourne le numéro tel quel si non reconnu ou déjà formaté
     return phone_number
 
-
-
 def import_contacts(request):
     """
     Fonction pour importer des contacts depuis un fichier CSV ou VCF, 
@@ -179,11 +181,14 @@ def import_contacts(request):
         if form.is_valid():
             # Supprimer les contacts liés à la session avant l'importation
             session_key = request.session.session_key
-            Contact.objects.filter(session_key=session_key).delete()
-
-            file = request.FILES['csv_file']
             try:
-                # Vérifie si c'est un fichier CSV ou VCF
+                deleted_contacts = Contact.objects.filter(session_key=session_key).delete()
+                if deleted_contacts[0] > 0:
+                    messages.success(request, "Anciens contacts supprimés avec succès.")
+                else:
+                    messages.info(request, "Aucun ancien contact à supprimer.")
+                
+                file = request.FILES['csv_file']
                 if file.name.endswith('.csv'):
                     decoded_file = file.read().decode('utf-8-sig')
                     reader = csv.DictReader(decoded_file.splitlines())
@@ -233,7 +238,6 @@ def import_contacts(request):
     else:
         form = ContactUploadForm()
     return render(request, "main/import_contacts.html", {"form": form})
-
 
 def auto_delete_after_import(request):
     """
@@ -309,7 +313,7 @@ def list_contacts(request):
 
 def vcard(request, vcard_id=None):
     if vcard_id:
-        vcard = vCard.objects.get(id=vcard_id)
+        vcard = get_object_or_404(vCard, id=vcard_id)
         form = vCardForm(request.POST or None, request.FILES or None, instance=vcard)
     else:
         vcard = None
@@ -332,7 +336,8 @@ def vcard(request, vcard_id=None):
 
     return render(request, 'main/vcardplus.html', {'form': form, 'vcard': vcard})
 
-
+# Vue pour générer un PDF de la vCard
+# Vue pour générer un PDF de la vCard
 def vcard_pdf(request, vcard_id):
     # Récupération des données de la vCard depuis la base
     vcard = get_object_or_404(vCard, id=vcard_id)
@@ -373,12 +378,13 @@ def vcard_pdf(request, vcard_id):
     p.drawString(100, 720, f"Adresse: {vcard.address}")
 
     # Ajouter le QR code au PDF
+    # Utilisation d'un fichier temporaire pour l'image QR
+    qr_buffer.seek(0)  # Remise à zéro du buffer avant de l'utiliser dans le PDF
     p.drawImage(qr_buffer, 100, 600, width=150, height=150)
 
     p.showPage()
     p.save()
     return response
-
 # Vue pour afficher les détails de la vCard et son QR code
 def vcard_detail(request, vcard_id):
     vcard = get_object_or_404(vCard, id=vcard_id)
